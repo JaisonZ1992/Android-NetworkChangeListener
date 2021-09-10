@@ -4,6 +4,8 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.jaisonz.androidnetworkchangelistener.NetworkResultCallback
+import com.jaisonz.androidnetworkchangelistener.NetworkUtil
 
 abstract class BaseActivity: AppCompatActivity() {
 
@@ -33,7 +35,7 @@ abstract class BaseActivity: AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     private fun listenForInternetConnectivity() {
-        NetworkUtil.registerForConnectivityChanges(this, object : NetworkResultCallback{
+        NetworkUtil.registerForConnectivityChanges(this, object : NetworkResultCallback {
             override fun connected() {
                 performNetworkOperation()
             }

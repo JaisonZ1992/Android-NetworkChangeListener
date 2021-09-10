@@ -1,2 +1,3 @@
 rootProject.name = "NetworkChange"
 include ':app'
+include ':AndroidNetworkChangeListener'

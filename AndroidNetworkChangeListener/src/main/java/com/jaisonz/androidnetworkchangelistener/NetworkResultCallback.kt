@@ -1,4 +1,4 @@
-package com.example.networkchange
+package com.jaisonz.androidnetworkchangelistener
 
 interface NetworkResultCallback {
     fun connected()

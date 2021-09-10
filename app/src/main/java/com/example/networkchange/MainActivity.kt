@@ -2,6 +2,7 @@ package com.example.networkchange
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 
 class MainActivity : BaseActivity() {
 
@@ -15,10 +16,10 @@ class MainActivity : BaseActivity() {
     }
 
     override fun performNetworkOperation(){
-        Log.d(TAG, "Perform API call")
+        Toast.makeText(this,"Perform service request", Toast.LENGTH_SHORT).show()
     }
 
     override fun noInternetConnected(){
-        Log.d(TAG, "Show no internet")
+        Toast.makeText(this,"No internet connection", Toast.LENGTH_SHORT).show()
     }
 }

@@ -1,4 +1,4 @@
-package com.example.networkchange
+package com.jaisonz.androidnetworkchangelistener
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 object NetworkUtil{
 
+    @Suppress("Deprecation")
     fun isNetworkConnected(context: Context): Boolean {
         var result = false
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
