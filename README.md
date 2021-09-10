@@ -19,5 +19,19 @@ Add it in your root build.gradle at the end of repositories:
 	        implementation 'com.github.JaisonZ1992:Android-NetworkChangeListener:v1.0.0'
 	}
 
+Step 3
+
+Use the following method in the BaseActivity
+
+	NetworkUtil.registerForConnectivityChanges(this, object : NetworkResultCallback {
+		    override fun connected() {
+			//Perform network operation 
+		    }
+
+		    override fun disconnected() {
+			//Show no internet dialog
+		    }
+		})
+    
 [![](https://jitpack.io/v/JaisonZ1992/Android-NetworkChangeListener.svg)](https://jitpack.io/#JaisonZ1992/Android-NetworkChangeListener)
 
