@@ -15,11 +15,11 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    override fun performNetworkOperation(){
-        Toast.makeText(this,"Perform service request", Toast.LENGTH_SHORT).show()
+    override fun performNetworkOperation() {
+        Log.d(TAG, "Perform service request")
     }
 
-    override fun noInternetConnected(){
-        Toast.makeText(this,"No internet connection", Toast.LENGTH_SHORT).show()
+    override fun noInternetConnected() {
+        Log.d(TAG, "No internet connection")
     }
 }

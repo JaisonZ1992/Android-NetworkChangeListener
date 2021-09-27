@@ -9,7 +9,9 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 
 
-object NetworkUtil{
+object NetworkUtil {
+
+    private var networkCallback: NetworkConnectivityCallback? = null
 
     @Suppress("Deprecation")
     fun isNetworkConnected(context: Context): Boolean {
@@ -41,37 +43,31 @@ object NetworkUtil{
 
     fun registerForConnectivityChanges(
         context: Context,
-        networkResultCallback: NetworkResultCallback){
-        //If mobile data and WIFI is enabled you will get callback in the following order when WIFI is turned off
-        // WIFI Off -> onLost -> onAvailable. The connection is getting reset to mobile data from WIFI
-        val networkCallback: ConnectivityManager.NetworkCallback = object : ConnectivityManager.NetworkCallback() {
-            var currentState = isNetworkConnected(context)
+        networkResultCallback: NetworkResultCallback
+    ) {
+        val currentState = isNetworkConnected(context)
+        networkCallback = NetworkConnectivityCallback(currentState, networkResultCallback)
+        registerNetworkCallback(context)
+    }
 
-            override fun onAvailable(network: Network) {
-                val status = isNetworkConnected(context)
-                //Check if network enabled and the status has changed from no-internet to connected
-                if(status && status != currentState){
-                    currentState = true
-                    networkResultCallback.connected()
-                }
-            }
-            override fun onLost(network: Network) {
-                val status = isNetworkConnected(context);
-                //Check if network disabled and the status has changed from connected to no-internet
-                if (!status && status != currentState) {
-                    currentState = false
-                    networkResultCallback.disconnected()
-                }
-            }
-        }
-
-        val connectivityManager = context.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+    private fun registerNetworkCallback(context: Context) {
+        val connectivityManager =
+            context.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            connectivityManager.registerDefaultNetworkCallback(networkCallback)
+            networkCallback?.let { connectivityManager.registerDefaultNetworkCallback(it) }
         } else {
             val request = NetworkRequest.Builder()
                 .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build()
-            connectivityManager.registerNetworkCallback(request, networkCallback)
+            networkCallback?.let { connectivityManager.registerNetworkCallback(request, it) }
         }
+    }
+
+    fun unregisterNetworkChangeListener(context: Context) {
+        networkCallback?.let {
+            val connectivityManager =
+                context.getSystemService(AppCompatActivity.CONNECTIVITY_SERVICE) as ConnectivityManager
+            connectivityManager.unregisterNetworkCallback(it)
+        }
+        networkCallback = null
     }
 }
