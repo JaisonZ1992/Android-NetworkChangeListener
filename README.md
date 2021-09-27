@@ -23,6 +23,7 @@ Step 3
 
 Use the following method in the BaseActivity
 
+	//Onstart
 	NetworkUtil.registerForConnectivityChanges(this, object : NetworkResultCallback {
 		    override fun connected() {
 			//Perform network operation 
@@ -32,6 +33,10 @@ Use the following method in the BaseActivity
 			//Show no internet dialog
 		    }
 		})
+		
+	//Onstop
+	NetworkUtil.unregisterNetworkChangeListener(this)
+
     
 [![](https://jitpack.io/v/JaisonZ1992/Android-NetworkChangeListener.svg)](https://jitpack.io/#JaisonZ1992/Android-NetworkChangeListener)
 
